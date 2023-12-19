@@ -22,7 +22,7 @@ import model.Operations;
  *
  * @author danyal
  */
-public Oocdb {
+public class Assignment {
 
      private static final Scanner scanner = new Scanner(System.in);
      
@@ -161,17 +161,139 @@ public Oocdb {
         System.out.println("4. Review operations performed by other users");
         System.out.println("0. Logout");
 
-        int adminChoice = scanner.nextInt();/**
- *
- * @author user
- */
-public class OOCDB {
+        int adminChoice = scanner.nextInt();
+                switch (adminChoice) {
+            case 1:
+                // Modify own profile
+                System.out.println("Enter new name:");
+                String newName = scanner.next();
+                System.out.println("Enter new surname:");
+                String newSurname = scanner.next();
+                ao.modifyProfile(newName, newSurname);
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+               
+                
+
+                System.out.println("Profile updated successfully.");
+                break;
+
+            case 2:
+                // Access list of all users
+                // You need to implement a method to retrieve and display all users from the database
+                // For simplicity, let's assume there's a method called getAllUsers in UserManager
+                List<User> allUsers = uop.getAllUsers();
+                System.out.println("List of all users:");
+                for (User u : allUsers) {
+                    System.out.println(u.toString());
+                }
+                break;
+
+            case 3:
+                // Remove a user
+                System.out.println("Enter the username of the user to remove:");
+                String usernameToRemove = scanner.next();
+
+                // You need to implement a method to remove a user from the database
+                // For simplicity, let's assume there's a method called removeUser in UserManager
+                if (ao.removeUser(usernameToRemove) == 1) {
+                    System.out.println("User removed successfully.");
+                } else {
+                    System.out.println("User not found or cannot be removed.");
+                }
+                break;
+
+            case 4:
+                // Review operations performed by other users
+                // You need to implement a method to retrieve and display user operations from the database
+                // For simplicity, let's assume there's a method called reviewUserOperations in UserManager
+                List<Operations> userOperations = uop.reviewUserOperations();
+                System.out.println("Operations performed by other users:");
+                for (Operations operation : userOperations) {
+                    System.out.println(operation.toString());
+                }
+                break;
+
+            case 0:
+                // Logout
+                System.out.println("Logged out as Admin.");
+                Assignment.menu();
+                return;
+
+            default:
+                System.out.println("Invalid choice. Please enter a valid option.");
+                  }
+               }
+                    // Implement admin functionalities
+                } else if (userType == 2 && "User".equals(user.getRole())) {
+                    // Regular user operations
+                    System.out.println("Logged in as Regular User");
+                   
+                    // Regular user functionalities
+    while (true) {
+        System.out.println("1. Modify own profile");
+        System.out.println("2. Calculate and save your Tax Calculations");
+        System.out.println("0. Logout");
+
+        int regularUserChoice = scanner.nextInt();
+
+        switch (regularUserChoice) {
+            case 1:
+                // Modify own profile
+                System.out.println("Enter new name:");
+                String newName = scanner.next();
+                System.out.println("Enter new surname:");
+                String newSurname = scanner.next();
+                uop.modifyProfile(user.getId(), newName, newSurname);
+
+              
+                
+
+                System.out.println("Profile updated successfully.");
+                break;
+
+            case 2:
+        System.out.println("Enter gross income:");
+        double grossIncome = scanner.nextDouble();
+
+        System.out.println("Enter tax credits:");
+        double taxCredits = scanner.nextDouble();
+
+       
+
+        // Calculate tax
+        double taxOwed = uop.calculateTax(grossIncome, taxCredits);
+        System.out.println("Tax owed: " + taxOwed);
+
+        
+        int result = uop.saveTaxRescord(user.getId(), grossIncome, taxCredits, taxOwed);
+        
+                System.out.println("Tax Record added in Database Successfully ");
+
+                
+
+                break;
+
+            case 0:
+                // Logout
+                System.out.println("Logged out as Regular User.");
+                return;
+
+            default:
+                System.out.println("Invalid choice. Please enter a valid option.");
+        }
     }
-    
+                } else {
+                    System.out.println("Invalid user type.");
+                }
+            } else {
+                System.out.println("Invalid credentials.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+      
+        
+    }
 }
+
